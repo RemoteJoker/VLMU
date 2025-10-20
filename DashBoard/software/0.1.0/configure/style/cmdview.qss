@@ -1,0 +1,70 @@
+/* ==============================================
+   全局基础样式：统一字体（楷体）和字体大小（20px）
+   ============================================== */
+QPushButton, QLabel {
+    font-family: "楷体", "KaiTi", serif; /* 兼容Windows和Linux的楷体字体 */
+    font-size: 20px;                     /* 统一字体大小 */
+    color: #FFFFFF;                      /* 字体白色，与蓝色渐变背景形成对比 */
+}
+
+/* ==============================================
+   QLabel 样式：线性蓝色渐变背景（从上到下）
+   ============================================== */
+QLabel {
+    /* 蓝色线性渐变：从浅蓝(#4A90E2)到深蓝(#1E5799)，从上到下 */
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #4A90E2,
+                                stop: 1 #1E5799);
+    border-radius: 8px;                  /* 圆角：柔和边缘，避免尖锐 */
+    padding: 1px 2px;                  /* 内边距：文字与控件边缘保持距离 */
+    border: none;                        /* 取消默认边框 */
+}
+
+/* ==============================================
+   QPushButton 基础样式：线性蓝色渐变背景
+   ============================================== */
+QPushButton {
+    /* 蓝色线性渐变：从亮蓝(#5BA0FF)到深蓝(#2962FF)，从上到下 */
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #5BA0FF,
+                                stop: 1 #2962FF);
+    border-radius: 8px;                  /* 圆角：与QLabel保持风格统一 */
+    padding: 1px 2px;                  /* 内边距：按钮点击区域更舒适 */
+    border: none;                        /* 取消默认边框 */
+    outline: none;                       /* 取消聚焦时的默认轮廓线 */
+    cursor: pointer;                     /* 鼠标悬浮时显示“手”形指针 */
+}
+
+/* ==============================================
+   QPushButton 交互状态：悬浮（Hover）
+   ============================================== */
+QPushButton:hover {
+    /* 悬浮时渐变加深：从深蓝(#4A80FF)到暗蓝(#1A56DB) */
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #4A80FF,
+                                stop: 1 #1A56DB);
+}
+
+/* ==============================================
+   QPushButton 交互状态：按下（Pressed）
+   ============================================== */
+QPushButton:pressed {
+    /* 按下时渐变反向：从暗蓝(#1A56DB)到深蓝(#4A80FF)，模拟“按压凹陷”视觉 */
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #1A56DB,
+                                stop: 1 #4A80FF);
+    padding-top: 4px;                   /* 轻微位移：模拟按钮向下按压 */
+    padding-bottom: 11px;
+}
+
+/* ==============================================
+   QPushButton 禁用状态（可选）
+   ============================================== */
+QPushButton:disabled {
+    /* 禁用时渐变变灰：从浅灰蓝(#A0B8E0)到深灰蓝(#7088A8) */
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #A0B8E0,
+                                stop: 1 #7088A8);
+    color: #E0E0E0;                      /* 字体变浅，提示禁用状态 */
+    cursor: not-allowed;                 /* 鼠标显示“禁止”图标 */
+}

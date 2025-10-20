@@ -1,0 +1,365 @@
+/* 菜单栏整体样式 - 增强的淡蓝到深蓝渐变 */
+QMenuBar {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,  /* 水平方向渐变 */
+                              stop:0 #8ec5fc,          /* 淡蓝色 */
+                              stop:0.5 #e0c3fc,
+                              stop:1 #00f2fe);         /* 深蓝色 */
+    color: white;
+    padding: 6px 0;
+    border: 1px solid #0d47a1;
+    border-radius: 4px; /* 增加整体圆角 */
+    font-family: "楷体", "KaiTi", "SimKai", serif;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* 菜单项基本样式 - 添加背景色 */
+QMenuBar::item {
+    padding: 8px 20px;
+    margin: 0 3px;
+    border-radius: 6px; /* 增大菜单项圆角 */
+    background: rgba(255, 255, 255, 0.15); /* 半透明白色背景 */
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* 菜单项悬停样式 - 更明显的渐变 */
+QMenuBar::item:hover {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                              stop:0 #4facfe,
+                              stop:1 #00f2fe);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.3); /* 悬停时添加边框 */
+}
+
+/* 菜单项选中样式 - 深色渐变 */
+QMenuBar::item:selected {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                              stop:0 #0052cc,
+                              stop:1 #002966);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* 下拉菜单样式 - 协调的渐变 */
+QMenu {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                              stop:0 #f0f7ff,
+                              stop:1 #e6f0ff);
+    border: 1px solid #99ccff;
+    border-radius: 6px;
+    padding: 4px 0;
+    margin: 2px 0 0 0;
+    font-family: "楷体", "KaiTi", "SimKai", serif;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* 下拉菜单项样式 */
+QMenu::item {
+    padding: 8px 24px 8px 20px;
+    color: #0d47a1;
+    background-color: transparent;
+    border-radius: 4px;
+    margin: 2px 4px;
+}
+
+/* 下拉菜单项悬停样式 */
+QMenu::item:hover {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                              stop:0 #e6f0ff,
+                              stop:1 #b3d1ff);
+    color: #002966;
+}
+
+/* 下拉菜单项选中样式 */
+QMenu::item:selected {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                              stop:0 #1a73e8,
+                              stop:1 #0d47a1);
+    color: white;
+}
+
+/* 菜单项分隔线 */
+QMenu::separator {
+    height: 1px;
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                              stop:0 transparent,
+                              stop:0.2 #99ccff,
+                              stop:0.8 #99ccff,
+                              stop:1 transparent);
+    margin: 4px 0;
+}
+
+/* 菜单项快捷键样式 */
+QMenu::item:disabled {
+    color: #99b3cc;
+}
+
+/* 带复选框的菜单项 */
+QMenu::indicator {
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+}
+
+QMenu::indicator:checked {
+    image: url(:/icons/checkmark.png);
+    background-color: #1a73e8;
+    border-radius: 3px;
+}
+
+QToolBar {
+    /* 线性渐变：水平方向渐变 */
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,  
+                            stop:0 #8ec5fc,          
+                            stop:0.5 #e0c3fc,
+                            stop:1 #00f2fe);         
+    border: none;
+    border-radius: 1px;
+    padding: 3px; /* 内边距略微增加，配合高度调整 */
+    spacing: 10px;
+    min-height: 36px; /* 工具栏高度增加（原默认约28px → 36px） */
+}
+
+/* 工具栏按钮基础样式 */
+QToolBar QToolButton {
+    color: white;
+    font-family: "楷体"; /* 字体改为楷体 */
+    font-size: 20px; /* 字体从12px放大到14px */
+    padding: 8px 14px; /* 按钮内边距增加，配合高度和字体 */
+    border-radius: 4px;
+    background-color: transparent;
+    border: 1px solid transparent;
+}
+
+/* 按钮 hover 状态 */
+QToolBar QToolButton:hover {
+    background-color: rgba(255,255,255,0.15);
+    border-color: rgba(255,255,255,0.3);
+}
+
+/* 按钮 pressed 状态 */
+QToolBar QToolButton:pressed {
+    background-color: rgba(0,0,0,0.1);
+    border-color: rgba(255,255,255,0.2);
+}
+
+/* 按钮 checked 状态 */
+QToolBar QToolButton:checked {
+    background-color: rgba(0,0,0,0.2);
+    border-color: rgba(255,255,255,0.4);
+}
+
+/* 分隔线样式（高度同步增加） */
+QToolBar::separator {
+    background-color: rgba(255,255,255,0.3);
+    width: 1px;
+    height: 26px; /* 分隔线高度从20px增至26px，配合工具栏高度 */
+    margin: 0 5px;
+}
+
+QStatusBar {
+    /* 线性渐变：水平方向渐变 */
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,  
+                            stop:0 #8ec5fc,          
+                            stop:0.5 #e0c3fc,
+                            stop:1 #00f2fe);         
+    border-top: 1px solid #1565c0; /* 顶部深色边框 */
+    color: white; /* 文字白色 */
+    font-family: "楷体"; /* 字体改为楷体 */
+    font-size: 20px; /* 字体放大（原12px → 14px，可按需调整） */
+    padding: 5px 10px; /* 内边距略微增加，配合高度调整 */
+    min-height: 30px; /* 状态栏高度增加（原默认约20px → 30px，可按需调整） */
+}
+
+/* 状态栏中的标签（QLabel） */
+QStatusBar QLabel {
+    color: rgba(255,255,255,0.9); /* 半透明白色文字 */
+    margin: 0 8px; /* 标签间距 */
+    font-family: "楷体"; /* 标签字体同步改为楷体 */
+    font-size: 14px; /* 标签字体大小同步放大 */
+}
+
+/* 状态栏中的进度条（QProgressBar） */
+QStatusBar QProgressBar {
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 3px;
+    background-color: rgba(255,255,255,0.1);
+    text-align: center;
+    height: 18px; /* 进度条高度略微增加，配合状态栏高度 */
+    width: 120px;
+}
+
+/* 进度条填充部分 */
+QStatusBar QProgressBar::chunk {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0, 
+                                stop:0 #81d4fa, stop:1 #4fc3f7);
+    border-radius: 2px;
+}
+
+/* GroupBox 整体样式 */
+QGroupBox {
+    /* 内容区域背景：从浅蓝到淡蓝的垂直渐变 */
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, 
+                              stop:0 #e6f2ff, 
+                              stop:1 #d1e7fe);
+    /* 边框：蓝色线条，带轻微圆角 */
+    border: 2px solid #4a90e2;
+    border-radius: 8px;
+    /* 内边距：标题与边框的距离，内容与边框的距离 */
+    padding: 15px 10px 10px 10px;
+    /* 字体样式 */
+    font-family: "Microsoft YaHei", sans-serif;
+    font-size: 14px;
+    color: #333;
+}
+
+/* GroupBox 标题样式 */
+QGroupBox::title {
+    /* 标题背景：从深蓝到亮蓝的水平渐变 */
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0, 
+                              stop:0 #2c6ed6, 
+                              stop:1 #4da6ff);
+    /* 标题文字颜色 */
+    color: white;
+    /* 标题内边距 */
+    padding: 0px 10px;
+    /* 标题位置：向上偏移，覆盖部分边框 */
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    top: -8px; /* 调整标题与顶部边框的重叠程度 */
+    left: 15px; /* 标题左侧距离 */
+    border-radius: 4px; /* 标题背景圆角 */
+    font-weight: bold; /* 标题文字加粗 */
+}
+
+/* 鼠标悬停效果（可选） */
+QGroupBox:hover {
+    border-color: #6aa8ff;
+}
+
+/* 基础 QLabel 样式 */
+QLabel {
+    /* 默认文本颜色（深蓝色） */
+    color: #1a56db;
+    /* 字体设置 */
+    font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+    font-size: 20px;
+    /* 内边距 */
+    padding: 4px 6px;
+}
+
+/* 标题型 Label（可通过 objectName 调用） */
+QLabel#TitleLabel {
+    /* 深蓝光晕渐变 */
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                              stop:0 #1e40af,
+                              stop:1 #3b82f6);
+    /* 白色粗体文字 */
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    /* 圆角和阴影 */
+    border-radius: 6px;
+    padding: 8px 12px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+/* 链接样式 Label（模拟超链接） */
+QLabel#LinkLabel {
+    color: #2563eb;
+    text-decoration: underline;
+    font-size: 20px;
+}
+
+QLabel#LinkLabel:hover {
+    color: #1d4ed8;
+    cursor: pointer; /* 鼠标悬停显示手型 */
+}
+
+QLabel#LinkLabel:pressed {
+    color: #1e3a8a;
+}
+
+/* 提示文本样式（灰色柔和） */
+QLabel#HintLabel {
+    color: #60a5fa;
+    font-size: 20px;
+    font-style: italic; /* 斜体 */
+}
+
+/* 带边框的 Label */
+QLabel#BorderLabel {
+    border: 1px solid #93c5fd;
+    border-radius: 4px;
+    background-color: #eff6ff;
+    color: #1e40af;
+    padding: 6px 8px;
+}
+
+/* 带图标和文本的 Label（可配合 QLabel::setPixmap 使用） */
+QLabel#IconTextLabel {
+    padding-left: 30px; /* 给图标留出位置 */
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-origin: content;
+    background-size: 20px 20px;
+}
+
+/* 深邃黑渐变 Widget 基础样式 */
+QWidget#DarkContainer {
+    /* 主背景：从深灰到灰黑的径向渐变（中心略亮） */
+    background: qradialgradient(
+        cx:0.5, cy:0.5, radius:0.8,
+        fx:0.5, fy:0.5,
+        stop:0 #2a2a2a,    /* 中心灰黑 */
+        stop:0.7 #1a1a1a,  /* 中间过渡 */
+        stop:1 #0f0f0f     /* 边缘深黑 */
+    );
+    /* 边框：暗灰色细边框，增强轮廓感 */
+    border: 1px solid #333333;
+    border-radius: 8px;
+    /* 内边距：内容与边框的距离 */
+    padding: 12px;
+}
+
+/* 带悬浮效果的深色 Widget */
+QWidget#HoverDarkWidget {
+    /* 垂直渐变：从上到下加深 */
+    background: qlineargradient(
+        x1:0, y1:0, x2:0, y2:1,
+        stop:0 #222222,
+        stop:1 #111111
+    );
+    border: 1px solid #444444;
+    border-radius: 6px;
+    /* 轻微阴影，增强立体感 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* 悬浮时的变化 */
+QWidget#HoverDarkWidget:hover {
+    background: qlineargradient(
+        x1:0, y1:0, x2:0, y2:1,
+        stop:0 #2a2a2a,
+        stop:1 #151515
+    );
+    border-color: #555555;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.6);
+}
+
+/* 带标题栏区域的深色容器（可嵌套使用） */
+QWidget#DarkTitleContainer {
+    background: #121212;
+    border-radius: 8px 8px 0 0; /* 只上半部分圆角 */
+    padding: 8px 12px;
+    border-bottom: 1px solid #333333;
+}
+
+/* 内容区域配套样式 */
+QWidget#DarkContentContainer {
+    background: #1a1a1a;
+    border-radius: 0 0 8px 8px; /* 只下半部分圆角 */
+    padding: 10px;
+}
