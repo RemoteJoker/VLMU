@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
+import QtQuick.Dialogs 1.3
 
 ApplicationWindow {
     id: window
@@ -10,9 +11,8 @@ ApplicationWindow {
     title: "Software Launcher"
     flags: Qt.FramelessWindowHint
     color: "#1e1e1e"
-    property string selectedPath: ""
-    property string selectedVersion: ""
-    property int currentStep: 0
+    property int currentStep: 0 //启动步骤
+    property int currentFlag: 0 //启动成功与否的标志
     // 主内容区域
     Rectangle {
         anchors {
@@ -75,15 +75,6 @@ ApplicationWindow {
                         width: parent.width
                         wrapMode: Text.Wrap
                     }
-                    // 版本信息
-                    Text {
-                        id: versionText
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        text: selectedVersion ? "版本: " + selectedVersion : ""
-                        color: "#4CAF50"
-                        font.pixelSize: 11
-                        visible: selectedVersion !== ""
-                    }
                     // 进度条
                     Rectangle {
                         id: progressBarBackground
@@ -122,18 +113,25 @@ ApplicationWindow {
                 fill: parent
                 margins: 8
             }
-            text: "自动启动管理器"
+            text: "启动器"
             color: "#888888"
             font.pixelSize: 10
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
         }
     }
-    // 自动启动定时器
-    Timer {
-        id: autoLaunchTimer
-        interval: 100
-        onTriggered: startAutoLaunchProcess()
+    // 先在外部定义消息框
+    MessageDialog {
+        id: msgDialog
+        title: "启动错误"
+        icon: MessageDialog.Critical
+        standardButtons: MessageDialog.Ok
+        text: "启动失败，请联系维护人员\n" +
+              "车型开发工程组-杨刚（yangg11@xiaopeng.com）\n" +
+              "车型开发工程组-王晓飞（par-xiaofeiwa@wicresoft.com）"
+        onAccepted: {
+            Qt.quit()
+        }
     }
     // 步骤执行定时器
     Timer {
@@ -141,85 +139,53 @@ ApplicationWindow {
         interval: 800
         onTriggered: executeNextStep()
     }
-    // 退出定时器
-    Timer {
-        id: exitTimer
-        interval: 1000
-        onTriggered: Qt.quit()
-    }
     // 获取步骤标题
     function getStepTitle(step) {
         switch(step) {
-            case 0: return "正在初始化..."
-            case 1: return "读取配置..."
-            case 2: return "分析版本..."
-            case 3: return "启动程序..."
-            case 4: return "启动完成"
+            case 0: return "读取配置..."
+            case 1: return "启动程序..."
+            case 2: return "启动完成"
             default: return "处理中..."
         }
     }
     // 获取进度宽度
     function getProgressWidth(step) {
-        var totalSteps = 4;
+        var totalSteps = 2;
         return progressBarBackground.width * (step / totalSteps);
-    }
-    // 开始自动启动流程
-    function startAutoLaunchProcess() {
-        console.log("开始自动启动流程")
-        currentStep = 1
-        g_load_service.readDatabaseConfig()
-        stepTimer.start()
-        // 新增：打印拼接后的路径（调试用）
-        console.log("拼接后的启动路径:", g_load_service.geadDatabaseConfig())
     }
     // 执行下一步
     function executeNextStep() {
-        console.log("执行步骤:", currentStep)
-        if (currentStep === 1) {
-            // 步骤1: 读取配置完成，分析版本
-            currentStep = 2
-            selectedPath = g_load_service.geadDatabaseConfig()
-            selectedVersion = g_load_service.getHighestVersion()
-            stepTimer.interval = 600
-            stepTimer.start()
-
-        } else if (currentStep === 2) {
-            // 步骤2: 启动程序（修改：调用无参 launchProgram，后端自动处理重试）
-            currentStep = 3
-            if (g_load_service.geadDatabaseConfig() || g_load_service.getOldVersionPath()) {
-                g_load_service.launchProgram() // 无需传参，后端内部重试
-                stepTimer.interval = 800
-                stepTimer.start()
-            } else {
-                showErrorState("未找到任何可用版本路径")
+        if (currentStep == 0) {
+            // 读取配置
+            currentStep = 1
+            if(!g_load_service.initService()){
+                msgDialog.open()
+            }else{
+                if (g_load_service.getCfgPath()) {
+                    if(!g_load_service.launchProgram()){
+                        currentFlag = 1
+                    }
+                    stepTimer.interval = 800
+                    stepTimer.start()
+                } else {
+                    msgDialog.open()
+                }
             }
-        } else if (currentStep === 3) {
+        } else if (currentStep == 1) {
             // 步骤3: 完成并退出
-            currentStep = 4
+            currentStep = 2
             loadingAnimation.stop()
-            exitTimer.start()
+            if(currentFlag == 1){
+                //启动失败，打开
+                msgDialog.open()
+            }else{
+                Qt.quit()
+            }
         }
-    }
-    // 显示错误状态
-    function showErrorState(errorMsg) {
-        mainStatusText.text = "启动失败"
-        mainStatusText.color = "#e74c3c"
-        detailText.text = errorMsg
-        detailText.color = "#e74c3c"
-        loadingAnimation.stop()
-        // 3秒后自动退出
-        errorExitTimer.start()
-    }
-    // 错误退出定时器
-    Timer {
-        id: errorExitTimer
-        interval: 3000
-        onTriggered: Qt.quit()
     }
     // 初始化
     Component.onCompleted: {
-        console.log("版本自动启动器启动")
-        autoLaunchTimer.start()
+        stepTimer.start()
     }
     // 连接后端状态消息变化
     Connections {

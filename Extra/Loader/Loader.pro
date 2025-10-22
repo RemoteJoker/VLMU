@@ -1,5 +1,4 @@
 QT += quick sql
-
 CONFIG += c++11
 CONFIG += static
 # The following define makes your compiler emit warnings if you use
@@ -26,6 +25,7 @@ unix{
 }
 
 SOURCES += \
+        configure.cpp \
         loadservice.cpp \
         main.cpp
 
@@ -44,6 +44,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    configure.h \
     loadservice.h
 
 RC_ICONS = Resource\pic\ico.ico
