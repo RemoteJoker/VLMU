@@ -121,7 +121,7 @@ QString Utils::EnCryptData(){
 
 QString Utils::GetCpuInfo() {
     QString info;
-
+#ifdef _WIN32
     // 1. 添加CPU型号（从注册表获取）
     info += "CPU型号: " + GetCpuModelFromRegistry() + "\n";
 
@@ -168,11 +168,12 @@ QString Utils::GetCpuInfo() {
 
     // 4. 添加CPU频率信息（通过WMI获取）
     info += "\n" + GetCpuFrequency();
-
+#endif
     return info;
 }
 // 从注册表读取CPU型号（如"Intel(R) Core(TM) i7-10700K CPU @ 3.80GHz"）
 QString Utils::GetCpuModelFromRegistry() {
+#ifdef _WIN32
     HKEY hKey;
     // 注册表路径：CPU信息存储位置
     LONG result = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
@@ -194,10 +195,13 @@ QString Utils::GetCpuModelFromRegistry() {
     }
 
     return QString::fromWCharArray(cpuModel).trimmed(); // 去除首尾空格
+#endif
+    return QString();
 }
 
 // 通过WMI获取CPU基础频率和当前频率（简化版，使用单线程模型兼容）
 QString Utils::GetCpuFrequency() {
+#ifdef _WIN32
     QString freqInfo;
     HRESULT hres;
 
@@ -279,9 +283,12 @@ QString Utils::GetCpuFrequency() {
     CoUninitialize();
 
     return freqInfo;
+#endif
+    return QString();
 }
 
 QString Utils::GetGpuInfo() {
+#ifdef _WIN32
     QString info;
 
     // 1. 获取显卡基础信息（型号、厂商）
@@ -306,8 +313,11 @@ QString Utils::GetGpuInfo() {
     }
 
     return info;
+#endif
+    return QString();
 }
 
+#ifdef _WIN32
 // DXGI 获取显卡基础信息（型号、厂商ID）
 std::vector<DXGI_ADAPTER_DESC> Utils::GetGpuBasicInfo() {
     std::vector<DXGI_ADAPTER_DESC> adapters;
@@ -332,8 +342,10 @@ std::vector<DXGI_ADAPTER_DESC> Utils::GetGpuBasicInfo() {
     pFactory->Release();
     return adapters;
 }
+#endif
 
 // 根据厂商ID判断厂商名称（常见显卡厂商）
+#ifdef _WIN32
 QString Utils::GetVendorName(DWORD vendorId) {
     switch (vendorId) {
         case 0x10DE: return "NVIDIA";       // NVIDIA
@@ -343,10 +355,12 @@ QString Utils::GetVendorName(DWORD vendorId) {
         case 0x5143: return "Qualcomm";     // 高通
         default: return QString("未知（ID: 0x%1）").arg(vendorId, 4, 16, QChar('0')).toUpper();
     }
+    return QString();
 }
-
+#endif
 // WMI 获取显存大小（简化版）
 QString Utils::GetGpuMemory(const QString& gpuName) {
+#ifdef _WIN32
     // 初始化 COM
     HRESULT hres = CoInitializeEx(0, COINIT_APARTMENTTHREADED);
     if (FAILED(hres)) {
@@ -419,9 +433,12 @@ QString Utils::GetGpuMemory(const QString& gpuName) {
     CoUninitialize();
 
     return memoryInfo;
+#endif
+    return QString();
 }
 
 QString Utils::GetMemoryInfo() {
+#ifdef _WIN32
     QString info = "内存信息:\n";
 
     // 使用 GlobalMemoryStatusEx 获取核心内存信息（简单可靠）
@@ -443,9 +460,12 @@ QString Utils::GetMemoryInfo() {
     }
 
     return info;
+#endif
+    return QString();
 }
 
 // 辅助函数：将字节数转换为易读格式（B/KB/MB/GB）
+#ifdef _WIN32
 QString Utils::FormatSize(ULONGLONG bytes) {
     if (bytes < 1024) {
         return QString("%1 B").arg(bytes);
@@ -457,8 +477,9 @@ QString Utils::FormatSize(ULONGLONG bytes) {
         return QString("%1 GB").arg(bytes / (1024.0 * 1024 * 1024), 0, 'f', 2);
     }
 }
-
+#endif
 QString Utils::GetDiskInfo(){
+#ifdef _WIN32
     QString v_disk_info;
     DWORD drives = GetLogicalDrives();
     int driveCount = 0;
@@ -512,6 +533,8 @@ QString Utils::GetDiskInfo(){
     }
 
     return v_disk_info;
+#endif
+    return QString();
 }
 
 bool Utils::CheckDirExist(QString str){

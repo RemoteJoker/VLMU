@@ -1,6 +1,8 @@
 QT += quick sql
 CONFIG += c++11
 CONFIG += static
+CONFIG -= qml_debug
+CONFIG -= debug
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
 # depend on your compiler). Refer to the documentation for the
@@ -20,6 +22,7 @@ win32{
     QMAKE_CXXFLAGS += /utf-8
 }
 unix{
+    QMAKE_ENV += QT_QPA_PLATFORM=xcb
 }
     DEFINES += ARCH_X64
 }

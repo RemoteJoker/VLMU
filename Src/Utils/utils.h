@@ -42,11 +42,13 @@ public:
     static QString GetCpuModelFromRegistry();
     static QString GetCpuFrequency();
     static QString GetCpuInfo();//获取CPU信息
+#ifdef _WIN32
     static std::vector<DXGI_ADAPTER_DESC> GetGpuBasicInfo();
     static QString GetVendorName(DWORD vendorId);
+    static QString FormatSize(ULONGLONG bytes);
+#endif
     static QString GetGpuMemory(const QString& gpuName);
     static QString GetGpuInfo();//获取GPU信息
-    static QString FormatSize(ULONGLONG bytes);
     static QString GetMemoryInfo();//获取Ram信息
     static QString GetDiskInfo();//获取Rom信息
     //检查目标路径下是否有文件夹

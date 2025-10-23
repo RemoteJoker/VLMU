@@ -32,9 +32,9 @@ QStringList Configure::ReadDatabaseConfig() {
             throw std::runtime_error(QString("数据查询失败-2").toStdString());
         }
         // 读取新版本号和旧版本号（处理空值）
-        v_list<<query.value("last_boot_success_software_path").toString();
+        v_list<<g_cfg_path+query.value("last_boot_success_software_path").toString().replace("\"", "");
         v_list<<query.value("last_boot_success_software_version").toString();
-        v_list<<query.value("new_software_path").toString();
+        v_list<<g_cfg_path+query.value("new_software_path").toString().replace("\"", "");
         v_list<<query.value("new_software_version").toString();
         return v_list;
     } catch (const std::runtime_error& e) {
